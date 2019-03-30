@@ -11,4 +11,8 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.methods.matchPassword = function(password) {
+  return password === this.password;
+};
+
 module.exports = mongoose.model("User", userSchema);

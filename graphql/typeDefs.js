@@ -7,7 +7,9 @@ module.exports = gql`
     user(id: String!): User!
   }
   type Mutation {
-    register(email: String!, password: String!, username: String!): User!
+    register(email: String!, password: String!, username: String!): User
+    login(email: String!, password: String!): User
+    logout: Boolean
     addMesurement(weight: Float): Mesurement!
   }
   type User {
