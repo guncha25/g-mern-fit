@@ -7,6 +7,7 @@ import UserContext from "./components/UserContext";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import NotFound from "./components/NotFound";
+import Profile from "./components/Profile";
 
 export default () => {
   return (
@@ -14,7 +15,7 @@ export default () => {
       <Router>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/profile" component={Home} />
+          <Route path="/profile" component={Profile} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route component={NotFound} />
