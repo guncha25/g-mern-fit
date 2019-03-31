@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Client from "./Client";
-import { CURRENT_USER, LOGOUT_USER, USER_LOGIN } from "./query";
+import { CURRENT_USER, LOGOUT_USER, USER_LOGIN, USER_REGISTER } from "./query";
 
 export const useUser = () => {
   const [user, setUser] = useState({ username: null, email: null });
@@ -30,5 +30,17 @@ export const useUser = () => {
       .then(() => setUser({ username: null, email: null, signout: true }))
       .catch(er => console.log(er.message));
   };
-  return [user, me, login, logout];
+  const register = (email, username, password) => {
+    const output = Client.mutate({
+      mutation: USER_REGISTER,
+      variables: { email, username, password }
+    })
+      .then(({ data: { register: { email, username } } }) => {
+        setUser({ email, username });
+        return null;
+      })
+      .catch(er => er.message);
+    return output;
+  };
+  return [user, me, login, logout, register];
 };
