@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Collapse, Navbar, NavbarToggler, NavbarBrand } from "reactstrap";
+import { Collapse, Navbar, NavbarToggler } from "reactstrap";
 import { Link } from "react-router-dom";
 import UserMenu from "./UserMenu";
 
