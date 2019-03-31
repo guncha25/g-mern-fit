@@ -5,13 +5,7 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const { ApolloServer } = require("apollo-server-express");
 
-const {
-  APP_PORT,
-  MONGOOSE_URL,
-  SESS_NAME,
-  SESS_SECRET,
-  SESS_LIFETIME
-} = process.env;
+const { APP_PORT, MONGOOSE_URL, SESS_NAME, SESS_SECRET } = process.env;
 const resolvers = require("./graphql/resolvers");
 const typeDefs = require("./graphql/typeDefs");
 
@@ -40,6 +34,7 @@ app.use(
     resave: true,
     rolling: true,
     saveUninitialized: true,
+    sameSite: false,
     cookie: {
       maxAge: 1000 * 60 * 60,
       sameSite: true,
@@ -51,7 +46,7 @@ app.use(
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  // cors: false,
+  cors: false,
   playground: {
     endpoint: `http://localhost:${APP_PORT}/graphql`,
     settings: {

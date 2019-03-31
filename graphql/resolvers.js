@@ -3,6 +3,7 @@ const { UserInputError } = require("apollo-server-express");
 const Auth = require("../lib/auth");
 const User = require("../models/user");
 const Mesurement = require("../models/mesurement");
+const { AuthenticationError } = require("apollo-server-express");
 
 module.exports = {
   Query: {
@@ -11,19 +12,13 @@ module.exports = {
     },
     user: (_, { id }, ctx) => {
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new UserInputError("Ivalid id");
+        throw new UserInputError("Invalid id");
       }
       return User.findById(id);
     },
     mesurements: (_, arg, ctx) => {
       Auth.validateSignedIn(ctx.req);
       return Mesurement.find({});
-    }
-  },
-  Mutation: {
-    register: (_, args, ctx) => {
-      Auth.validateSignedOut(ctx.req);
-      return User.create(args);
     },
     login: async (_, { email, password }, ctx) => {
       if (ctx.req.session.userId) {
@@ -36,9 +31,21 @@ module.exports = {
 
       return user;
     },
+    me: async (_, args, ctx) => {
+      if (ctx.req.session.userId) {
+        return await User.findById(ctx.req.session.userId);
+      }
+      throw new AuthenticationError("Not logged in");
+    },
     logout: async (_, args, { req, res }) => {
       Auth.validateSignedIn(req);
       return await Auth.signOut(req, res);
+    }
+  },
+  Mutation: {
+    register: (_, args, ctx) => {
+      Auth.validateSignedOut(ctx.req);
+      return User.create(args);
     },
     addMesurement: (_, args, ctx) => {
       Auth.validateSignedIn(ctx.req);

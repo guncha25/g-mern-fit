@@ -13,5 +13,5 @@ Graphql, apollo, express, react, mongodb sandbox project.
 
 ```
 yarn
-yarn dev
+npm run dev
 ```

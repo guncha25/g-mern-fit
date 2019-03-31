@@ -5,11 +5,12 @@ module.exports = gql`
     mesurements(user: ID): [Mesurement]!
     users: [User]
     user(id: String!): User!
+    login(email: String!, password: String!): User
+    logout: Boolean
+    me: User
   }
   type Mutation {
     register(email: String!, password: String!, username: String!): User
-    login(email: String!, password: String!): User
-    logout: Boolean
     addMesurement(weight: Float): Mesurement!
   }
   type User {
