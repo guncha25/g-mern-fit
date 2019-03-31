@@ -1,6 +1,7 @@
 import React, { useRef, useContext } from "react";
-import { Container, Button, Form, FormGroup, Label } from "reactstrap";
+import { Button, Form, FormGroup, Label } from "reactstrap";
 import { UserCtx } from "./UserContext";
+import Layout from "./Layout";
 
 export default props => {
   const email = useRef(null);
@@ -13,7 +14,7 @@ export default props => {
     props.history.push("/");
   };
   return (
-    <Container>
+    <Layout>
       <Form onSubmit={signIn}>
         <FormGroup>
           <Label htmlFor="email">Email address</Label>
@@ -42,6 +43,6 @@ export default props => {
           </Button>
         </FormGroup>
       </Form>
-    </Container>
+    </Layout>
   );
 };

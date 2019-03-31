@@ -11,7 +11,7 @@ import { UserCtx } from "./UserContext";
 
 const UserMenu = props => {
   const { user, logout } = useContext(UserCtx);
-  const signOut = e => {
+  const signOut = () => {
     logout();
     props.history.push("/");
   };

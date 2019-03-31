@@ -1,10 +1,10 @@
 import React from "react";
-import { Container } from "reactstrap";
+import Layout from "./Layout";
 
 export default () => {
   return (
-    <Container>
+    <Layout>
       <h1> Hello</h1>
-    </Container>
+    </Layout>
   );
 };
