@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "apollo-server-express": "^2.4.8",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^4.1.0",
     "connect-mongodb-session": "^2.1.1",
     "cors": "^2.8.5",

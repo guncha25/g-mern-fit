@@ -43,9 +43,13 @@ module.exports = {
     }
   },
   Mutation: {
-    register: (_, args, ctx) => {
+    register: async (_, args, ctx) => {
       Auth.validateSignedOut(ctx.req);
-      return User.create(args);
+      const user = await Auth.signUp(args);
+
+      ctx.req.session.userId = user.id;
+
+      return user;
     },
     addMesurement: (_, args, ctx) => {
       Auth.validateSignedIn(ctx.req);
