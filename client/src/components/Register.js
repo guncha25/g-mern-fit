@@ -1,5 +1,7 @@
 import React, { useRef, useContext } from "react";
-import { Button, Form, FormGroup, Label } from "reactstrap";
+import { Button, Form, FormGroup, Label, Alert } from "reactstrap";
+import { Mutation } from "react-apollo";
+import { USER_REGISTER } from "../lib/query";
 import { UserCtx } from "./UserContext";
 import Layout from "./Layout";
 
@@ -7,62 +9,73 @@ export default props => {
   const email = useRef(null);
   const username = useRef(null);
   const password = useRef(null);
-  const { register } = useContext(UserCtx);
-
-  const signIn = async event => {
-    event.preventDefault();
-    const error = await register(
-      email.current.value,
-      username.current.value,
-      password.current.value
-    );
-    if (!error) {
-      props.history.push("/");
-    } else {
-      alert(error);
-    }
-  };
+  const { setUser } = useContext(UserCtx);
   return (
-    <Layout>
-      <Form onSubmit={signIn}>
-        <FormGroup>
-          <Label htmlFor="email">Email address</Label>
-          <input
-            className="form-control"
-            type="email"
-            aria-describedby="email"
-            ref={email}
-            id="email"
-            placeholder="Email"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="username">Username</Label>
-          <input
-            className="form-control"
-            type="text"
-            aria-describedby="username"
-            ref={username}
-            id="username"
-            placeholder="Username"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="password">Password</Label>
-          <input
-            className="form-control"
-            type="password"
-            ref={password}
-            id="password"
-            placeholder="Password"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Button type="submit" color="primary">
-            Submit
-          </Button>
-        </FormGroup>
-      </Form>
-    </Layout>
+    <Mutation mutation={USER_REGISTER}>
+      {(register, { error, loading }) => {
+        return (
+          <Layout>
+            <Form
+              onSubmit={async e => {
+                e.preventDefault();
+                const res = await register({
+                  variables: {
+                    email: email.current.value,
+                    username: username.current.value,
+                    password: password.current.value
+                  }
+                });
+                setUser(res.data.register);
+                props.history.push("/");
+              }}
+            >
+              {error &&
+                error.graphQLErrors.map(({ message }, i) => (
+                  <Alert color="danger" key={i}>
+                    {message}
+                  </Alert>
+                ))}
+              <FormGroup disabled={loading}>
+                <Label htmlFor="email">Email address</Label>
+                <input
+                  className="form-control"
+                  type="email"
+                  aria-describedby="email"
+                  ref={email}
+                  id="email"
+                  placeholder="Email"
+                />
+              </FormGroup>
+              <FormGroup disabled={loading}>
+                <Label htmlFor="username">Username</Label>
+                <input
+                  className="form-control"
+                  type="text"
+                  aria-describedby="username"
+                  ref={username}
+                  id="username"
+                  placeholder="Username"
+                />
+              </FormGroup>
+              <FormGroup disabled={loading}>
+                <Label htmlFor="password">Password</Label>
+                <input
+                  className="form-control"
+                  type="password"
+                  ref={password}
+                  id="password"
+                  placeholder="Password"
+                />
+              </FormGroup>
+              <FormGroup disabled={loading}>
+                <Button type="submit" color="primary">
+                  Submit
+                </Button>
+              </FormGroup>
+            </Form>
+          </Layout>
+        );
+      }}
+    </Mutation>
   );
 };
