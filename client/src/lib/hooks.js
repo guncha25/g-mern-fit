@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Client from "./Client";
-import { CURRENT_USER, LOGOUT_USER, USER_LOGIN, USER_REGISTER } from "./query";
+import { LOGOUT_USER, USER_LOGIN, USER_REGISTER } from "./query";
 
 export const useUser = () => {
   const [user, setUser] = useState({ username: null, email: null });
@@ -10,15 +10,6 @@ export const useUser = () => {
       variables: { email, password }
     })
       .then(({ data: { login: { email, username } } }) => {
-        setUser({ email, username });
-      })
-      .catch(er => console.log(er.message));
-  };
-  const me = () => {
-    Client.query({
-      query: CURRENT_USER
-    })
-      .then(({ data: { me: { email, username } } }) => {
         setUser({ email, username });
       })
       .catch(er => console.log(er.message));
@@ -42,5 +33,5 @@ export const useUser = () => {
       .catch(er => er.message);
     return output;
   };
-  return [user, me, login, logout, register];
+  return [user, login, logout, register, setUser];
 };

@@ -8,19 +8,23 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
+import { ApolloProvider } from "react-apollo";
+import Client from "./lib/Client";
 
 export default () => {
   return (
-    <UserContext>
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route component={NotFound} />
-        </Switch>
-      </Router>
-    </UserContext>
+    <ApolloProvider client={Client}>
+      <UserContext>
+        <Router>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
+      </UserContext>
+    </ApolloProvider>
   );
 };
