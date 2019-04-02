@@ -18,15 +18,17 @@ export default props => {
             <Form
               onSubmit={async e => {
                 e.preventDefault();
-                const res = await register({
-                  variables: {
-                    email: email.current.value,
-                    username: username.current.value,
-                    password: password.current.value
-                  }
-                });
-                setUser(res.data.register);
-                props.history.push("/");
+                try {
+                  const res = await register({
+                    variables: {
+                      email: email.current.value,
+                      username: username.current.value,
+                      password: password.current.value
+                    }
+                  });
+                  setUser(res.data.register);
+                  props.history.push("/");
+                } catch (err) {}
               }}
             >
               {error &&

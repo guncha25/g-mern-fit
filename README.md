@@ -7,7 +7,7 @@ Graphql, apollo, express, react, mongodb sandbox project.
 ## Prerequisits
 
 1. Install or create mongo databse.
-2. Create `.env` file and add `MONGOOSE_URL` and `APP_PORT` to that file.
+2. Copy and rename `.env.sample` to `.env` file and edit `MONGOOSE_URL` to that file.
 
 ## Setup
 
